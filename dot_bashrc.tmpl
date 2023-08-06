@@ -170,6 +170,8 @@ export MOZ_ENABLE_WAYLAND=1
 # VSCode
 if [ "$TERM_PROGRAM" = "vscode" ]; then
   export EDITOR="code -r"
+else
+  export EDITOR=${EDITOR:-vi}
 fi
 
 # Starship
