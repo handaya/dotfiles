@@ -57,7 +57,7 @@ if [[ -n "$force_color_prompt" ]]; then
     # a case would tend to support setf rather than setaf.)
     color_prompt=yes
   else
-	color_prompt=
+    color_prompt=
   fi
 fi
 
@@ -126,24 +126,9 @@ fi
 
 # User customization
 
-# chezmoi
-if type chezmoi >/dev/null 2>&1; then
-  . <(chezmoi completion bash)
-fi
-
-# doppler
-if type doppler >/dev/null 2>&1; then
-  export HISTIGNORE='*doppler secrets set*'
-  . <(doppler completion 2>/dev/null)
-fi
-
-# firefox
-export MOZ_ENABLE_WAYLAND=1
-
-# fnm
-if type fnm >/dev/null 2>&1; then
-  . <(fnm completions --shell bash)
-  eval "$(fnm env --use-on-cd)"
+# Rust
+if type cargo >/dev/null 2>&1; then
+  . "$HOME/.cargo/env"
 fi
 
 # fzf
@@ -160,18 +145,32 @@ if [[ -f "/usr/share/doc/fzf/examples/key-bindings.bash" ]]; then
   fi
 fi
 
-# kubectl
+# Completions
+if type chezmoi >/dev/null 2>&1; then
+  . <(chezmoi completion bash)
+fi
+if type doppler >/dev/null 2>&1; then
+  export HISTIGNORE='*doppler secrets set*'
+  . <(doppler completion 2>/dev/null)
+fi
+if type fnm >/dev/null 2>&1; then
+  . <(fnm completions --shell bash)
+  eval "$(fnm env --use-on-cd)"
+fi
 if type kubectl >/dev/null 2>&1; then
   . <(kubectl completion bash)
 fi
 
-# Rust
-if type cargo >/dev/null 2>&1; then
-  . "$HOME/.cargo/env"
-fi
-
 export IGNOREEOF=2
 stty -ixon
+
+# firefox
+export MOZ_ENABLE_WAYLAND=1
+
+# VSCode
+if [ "$TERM_PROGRAM" = "vscode" ]; then
+  export EDITOR="code -r"
+fi
 
 # Starship
 if type starship >/dev/null 2>&1; then
