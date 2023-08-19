@@ -1,5 +1,4 @@
 # shellcheck shell=bash
-
 # ~/.bashrc: executed by bash(1) for non-login shells.
 # see /usr/share/doc/bash/examples/startup-files (in the package bash-doc)
 # for examples
@@ -119,16 +118,36 @@ if ! shopt -oq posix; then
 fi
 
 # User customization
+pathappend() {
+    for ARG in "$@"; do
+        if [ -d "$ARG" ] && [[ ":$PATH:" != *":$ARG:"* ]]; then
+            PATH="${PATH:+"$PATH:"}$ARG"
+        fi
+    done
+}
+pathprepend() {
+    for ((i = $#; i > 0; i--)); do
+        ARG=${!i}
+        if [ -d "$ARG" ] && [[ ":$PATH:" != *":$ARG:"* ]]; then
+            PATH="$ARG${PATH:+":$PATH"}"
+        fi
+    done
+}
+pathprepend "$HOME/bin" "$HOME/.local/bin"
 
 HISTSIZE=100000
 HISTFILESIZE=${HISTSIZE}
 export IGNOREEOF=2
 stty -ixon
-umask 022
 
 # Rust
 if type cargo >/dev/null 2>&1; then
     . "$HOME/.cargo/env"
+fi
+
+# exa
+if type "exa" >/dev/null 2>&1; then
+    alias ls=exa
 fi
 
 # fzf
@@ -143,6 +162,13 @@ if [[ -f "/usr/share/doc/fzf/examples/key-bindings.bash" ]]; then
         export FZF_DEFAULT_OPTS="--ansi --height 50% --reverse --border --cycle"
         export FZF_TMUX=0
     fi
+fi
+
+# VSCode
+if [ "$TERM_PROGRAM" = "vscode" ]; then
+    export EDITOR="code -r"
+else
+    export EDITOR=${EDITOR:-vi}
 fi
 
 # Completions
@@ -161,16 +187,6 @@ if type kubectl >/dev/null 2>&1; then
     . <(kubectl completion bash)
 fi
 
-# firefox
-export MOZ_ENABLE_WAYLAND=1
-
-# VSCode
-if [ "$TERM_PROGRAM" = "vscode" ]; then
-    export EDITOR="code -r"
-else
-    export EDITOR=${EDITOR:-vi}
-fi
-
 # Starship
 if type starship >/dev/null 2>&1; then
     eval "$(starship init bash)"
@@ -178,5 +194,5 @@ fi
 
 # keychain
 if type keychain >/dev/null 2>&1; then
-    eval $(keychain --eval id_ed25519)
+    eval "$(keychain --eval id_ed25519)"
 fi
