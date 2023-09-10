@@ -140,16 +140,6 @@ HISTFILESIZE=${HISTSIZE}
 export IGNOREEOF=2
 stty -ixon
 
-# Rust
-if type cargo >/dev/null 2>&1; then
-    . "$HOME/.cargo/env"
-fi
-
-# exa
-if type "exa" >/dev/null 2>&1; then
-    alias ls=exa
-fi
-
 # fzf
 if [[ -f "/usr/share/doc/fzf/examples/key-bindings.bash" ]]; then
     . "/usr/share/doc/fzf/examples/key-bindings.bash"

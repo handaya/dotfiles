@@ -1,0 +1,8 @@
+# shellcheck shell=bash
+# .bash_profile
+if [[ -f ~/.profile ]]; then
+    . ~/.profile
+fi
+
+# Rust
+. "$HOME/.cargo/env"
