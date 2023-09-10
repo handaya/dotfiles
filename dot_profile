@@ -33,3 +33,12 @@ export MOZ_ENABLE_WAYLAND=1
 
 # Rust
 . "$HOME/.cargo/env"
+if [ ! -d "$HOME/.local/share/bash-completion/completions" ]; then
+    mkdir -p "$HOME/.local/share/bash-completion/completions"
+fi
+if [ ! -f "$HOME/.local/share/bash-completion/completions/rustup" ]; then
+    rustup completions bash >> "$HOME/.local/share/bash-completion/completions/rustup"
+fi
+if [ ! -f "$HOME/.local/share/bash-completion/completions/cargo" ]; then
+    rustup completions bash cargo >> "$HOME/.local/share/bash-completion/completions/cargo"
+fi
