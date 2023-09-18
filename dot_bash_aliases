@@ -1,8 +1,11 @@
 # shellcheck shell=bash
 # .bash_aliases
 
-if type "eza" >/dev/null 2>&1; then
+if type eza >/dev/null 2>&1; then
     alias ls=eza
+fi
+if type tmuximum >/dev/null 2>&1; then
+    alias t=tmuximum
 fi
 
 function bws() {

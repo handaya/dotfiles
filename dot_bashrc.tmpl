@@ -188,3 +188,10 @@ if type wsl2-ssh-agent >/dev/null 2>&1; then
 elif type keychain >/dev/null 2>&1; then
     eval "$(keychain --eval id_ed25519)"
 fi
+
+# tmux/tmuximum
+if type tmuximum >/dev/null 2>&1; then
+    if [[ -z $TMUX ]]; then
+        tmuximum
+    fi
+fi
