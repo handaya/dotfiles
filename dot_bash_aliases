@@ -1,21 +1,16 @@
 # shellcheck shell=bash
 # .bash_aliases
 
-if type eza >/dev/null 2>&1; then
-    alias ls=eza
-fi
-if type tmuximum >/dev/null 2>&1; then
-    alias t=tmuximum
-fi
+type eza >/dev/null 2>&1 && alias ls=eza
+type tmuximum >/dev/null 2>&1 && alias t=tmuximum
 
 function bws() {
-    if ! bw login --check >/dev/null; then
-        export BW_SESSION=$(bw login --raw)
-    fi
-    if ! bw unlock --check >/dev/null; then
-        export BW_SESSION=$(bw unlock --raw)
-    fi
+    bw login --check >/dev/null || export BW_SESSION=$(bw login --raw)
+    bw unlock --check >/dev/null || export BW_SESSION=$(bw unlock --raw)
     echo "Syncing Vault..."
     bw sync
-    echo "Done"
+}
+
+function rum() {
+    systemctl is-active user@$(id -u) >/dev/null || sudo systemctl restart user@$(id -u)
 }
