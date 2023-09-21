@@ -154,13 +154,6 @@ if [[ -f "/usr/share/doc/fzf/examples/key-bindings.bash" ]]; then
     fi
 fi
 
-# VSCode
-if [ "$TERM_PROGRAM" = "vscode" ]; then
-    export EDITOR="code -r"
-else
-    export EDITOR=${EDITOR:-vi}
-fi
-
 # Completions
 if type chezmoi >/dev/null 2>&1; then
     . <(chezmoi completion bash)
@@ -189,9 +182,16 @@ elif type keychain >/dev/null 2>&1; then
     eval "$(keychain --eval id_ed25519)"
 fi
 
-# tmux/tmuximum
-if type tmuximum >/dev/null 2>&1; then
-    if [[ -z $TMUX ]]; then
-        tmuximum
+# VSCode
+if [[ "$TERM_PROGRAM" = "vscode" ]]; then
+    export EDITOR="code -r -w"
+else
+    export EDITOR=${EDITOR:-vi}
+    # tmux/tmuximum
+    if type tmuximum >/dev/null 2>&1; then
+        if [[ -z $TMUX ]]; then
+            tmuximum
+        fi
     fi
 fi
+
