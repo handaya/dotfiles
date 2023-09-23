@@ -1,6 +1,38 @@
+[".local/bin/bw"]
+    type = "file"
+    url = "https://vault.bitwarden.com/download/?app=cli&platform={{ .chezmoi.os }}"
+    executable = true
+    refreshPeriod = "168h"
+[".local/bin/bw".filter]
+    command = "bsdtar"
+    args = ["-xf", "-", "-O", "bw"]
+
+[".local/share/fzf"]
+    type = "archive"
+    url = "https://github.com/junegunn/fzf/archive/master.tar.gz"
+    exact = true
+    stripComponents = 1
+    refreshPeriod = "168h"
+
+[".local/bin/rg"]
+    type = "file"
+    url = "https://github.com/BurntSushi/ripgrep/releases/download/{{ (gitHubLatestRelease "BurntSushi/ripgrep").TagName }}/ripgrep-{{ (gitHubLatestRelease "BurntSushi/ripgrep").TagName }}-x86_64-unknown-linux-musl.tar.gz"
+    executable = true
+    refreshPeriod = "168h"
+[".local/bin/rg".filter]
+    command = "tar"
+    args = ["--extract", "--file", "/dev/stdin", "--gzip", "--to-stdout", "ripgrep-{{ (gitHubLatestRelease "BurntSushi/ripgrep").TagName }}-x86_64-unknown-linux-musl/rg"]
+
+{{ if eq .chezmoi.os "linux" }}
+{{   if (.chezmoi.kernel.osrelease | lower | contains "microsoft") }}
+# WSL
+{{   else }}
+# Linux only
 [".tmux/plugins/tpm"]
     type = "archive"
     url = "https://github.com/tmux-plugins/tpm/archive/master.tar.gz"
     exact = true
     stripComponents = 1
     refreshPeriod = "168h"
+{{   end }}
+{{ end }}

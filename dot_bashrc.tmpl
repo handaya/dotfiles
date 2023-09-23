@@ -118,6 +118,9 @@ if ! shopt -oq posix; then
 fi
 
 # User customization
+_have() {
+    type "$1" >/dev/null 2>&1
+}
 pathappend() {
     for ARG in "$@"; do
         if [ -d "$ARG" ] && [[ ":$PATH:" != *":$ARG:"* ]]; then
@@ -141,10 +144,14 @@ export IGNOREEOF=2
 stty -ixon
 
 # fzf
-if [[ -f "/usr/share/doc/fzf/examples/key-bindings.bash" ]]; then
-    . "/usr/share/doc/fzf/examples/key-bindings.bash"
+if _have fzf; then
+    if [[ -f "${XDG_CONFIG_HOME:-$HOME/.config}"/fzf/fzf.bash ]]; then
+        . "${XDG_CONFIG_HOME:-$HOME/.config}"/fzf/fzf.bash
+    elif [[ -f "/usr/share/doc/fzf/examples/key-bindings.bash" ]]; then
+        . "/usr/share/doc/fzf/examples/key-bindings.bash"
+    fi
 
-    if type tmux >/dev/null 2>&1; then
+    if _have tmux; then
         export FZF_DEFAULT_OPTS="--ansi --reverse --cycle"
         export FZF_TMUX=1
         export FZF_TMUX_OPTS="-p 80%"
@@ -155,30 +162,30 @@ if [[ -f "/usr/share/doc/fzf/examples/key-bindings.bash" ]]; then
 fi
 
 # Completions
-if type chezmoi >/dev/null 2>&1; then
+if _have chezmoi; then
     . <(chezmoi completion bash)
 fi
-if type doppler >/dev/null 2>&1; then
+if _have doppler; then
     export HISTIGNORE='*doppler secrets set*'
     . <(doppler completion 2>/dev/null)
 fi
-if type fnm >/dev/null 2>&1; then
+if _have fnm; then
     . <(fnm completions --shell bash)
     eval "$(fnm env --use-on-cd)"
 fi
-if type kubectl >/dev/null 2>&1; then
+if _have kubectl; then
     . <(kubectl completion bash)
 fi
 
 # Starship
-if type starship >/dev/null 2>&1; then
+if _have starship; then
     eval "$(starship init bash)"
 fi
 
 # ssh-agent
-if type wsl2-ssh-agent >/dev/null 2>&1; then
+if _have wsl2-ssh-agent; then
     eval "$(wsl2-ssh-agent)"
-elif type keychain >/dev/null 2>&1; then
+elif _have keychain; then
     eval "$(keychain --eval id_ed25519)"
 fi
 
@@ -188,7 +195,7 @@ if [[ "$TERM_PROGRAM" = "vscode" ]]; then
 else
     export EDITOR=${EDITOR:-vi}
     # tmux/tmuximum
-    if type tmuximum >/dev/null 2>&1; then
+    if _have tmuximum; then
         if [[ -z $TMUX ]]; then
             tmuximum
         fi
