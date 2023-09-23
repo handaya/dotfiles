@@ -33,12 +33,19 @@
     refreshPeriod = "168h"
 
 {{   else }}
-# Linux
+# Other Linux
+{{   end }}
+# All Linux
+[".local/bin/tmuximum"]
+    type = "file"
+    url = "https://raw.githubusercontent.com/arks22/tmuximum/master/tmuximum"
+    executable = true
+    refreshPeriod = "168h"
+
 [".tmux/plugins/tpm"]
     type = "archive"
     url = "https://github.com/tmux-plugins/tpm/archive/master.tar.gz"
     exact = true
     stripComponents = 1
     refreshPeriod = "168h"
-{{   end }}
 {{ end }}
