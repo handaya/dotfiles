@@ -144,21 +144,22 @@ export IGNOREEOF=2
 stty -ixon
 
 # fzf
+if [[ -f "${XDG_CONFIG_HOME:-$HOME/.config}"/fzf/fzf.bash ]]; then
+    . "${XDG_CONFIG_HOME:-$HOME/.config}"/fzf/fzf.bash
+elif [[ -f "/usr/share/doc/fzf/examples/key-bindings.bash" ]]; then
+    . "/usr/share/doc/fzf/examples/key-bindings.bash"
+fi
 if _have fzf; then
-    if [[ -f "${XDG_CONFIG_HOME:-$HOME/.config}"/fzf/fzf.bash ]]; then
-        . "${XDG_CONFIG_HOME:-$HOME/.config}"/fzf/fzf.bash
-    elif [[ -f "/usr/share/doc/fzf/examples/key-bindings.bash" ]]; then
-        . "/usr/share/doc/fzf/examples/key-bindings.bash"
-    fi
-
     if _have tmux; then
-        export FZF_DEFAULT_OPTS="--ansi --reverse --cycle"
         export FZF_TMUX=1
         export FZF_TMUX_OPTS="-p 80%"
     else
-        export FZF_DEFAULT_OPTS="--ansi --height 50% --reverse --border --cycle"
         export FZF_TMUX=0
     fi
+    export FZF_DEFAULT_OPTS="--ansi --height 50% --reverse --border --cycle"
+    export FZF_CTRL_T_OPTS="--select-1 --exit-0"
+    export FZF_CTRL_R_OPTS="--preview 'echo {}' --preview-window down:3:hidden:wrap --bind '?:toggle-preview'"
+    export FZF_ALT_C_OPTS="--select-1 --exit-0 --preview 'tree -C {} | head -200'"
 fi
 
 # Completions
