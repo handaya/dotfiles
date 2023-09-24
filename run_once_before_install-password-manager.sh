@@ -8,7 +8,7 @@ _have() {
 
 if ! _have bsdtar; then
     echo "$PROG: install bsdtar"
-    sudo apt install bsdtar
+    sudo apt install libarchive-tools
 fi
 
 if _have bw; then
