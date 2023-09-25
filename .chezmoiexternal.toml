@@ -16,12 +16,12 @@
     command = "tar"
     args = ["--extract", "--file", "/dev/stdin", "--gzip", "--to-stdout", "ripgrep-{{ (gitHubLatestRelease "BurntSushi/ripgrep").TagName }}-x86_64-unknown-linux-musl/rg"]
 
-[".local/share/fzf"]
-    type = "archive"
-    url = "https://github.com/junegunn/fzf/archive/master.tar.gz"
-    exact = true
-    stripComponents = 1
-    refreshPeriod = "168h"
+#[".local/share/fzf"]
+#    type = "archive"
+#    url = "https://github.com/junegunn/fzf/archive/master.tar.gz"
+#    exact = true
+#    stripComponents = 1
+#    refreshPeriod = "168h"
 
 {{ if eq .chezmoi.os "linux" }}
 {{   if (.chezmoi.kernel.osrelease | lower | contains "microsoft") }}
