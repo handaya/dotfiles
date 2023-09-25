@@ -1,7 +1,7 @@
 #!/bin/sh
 set -eu
 
-PROG="$(basename $0)"
+PROG=$(basename "$0")
 _have() {
     type "$1" >/dev/null 2>&1
 }
