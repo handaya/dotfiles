@@ -22,7 +22,6 @@
 #    exact = true
 #    stripComponents = 1
 #    refreshPeriod = "168h"
-
 {{ if eq .chezmoi.os "linux" }}
 {{   if (.chezmoi.kernel.osrelease | lower | contains "microsoft") }}
 # WSL
@@ -31,7 +30,6 @@
     url = "https://github.com/mame/wsl2-ssh-agent/releases/latest/download/wsl2-ssh-agent"
     executable = true
     refreshPeriod = "168h"
-
 {{   else }}
 # Other Linux
 {{   end }}
