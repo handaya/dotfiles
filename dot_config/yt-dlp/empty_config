@@ -1,0 +1,49 @@
+# Options:
+--ignore-errors
+# --no-mark-watched
+
+# Network Options:
+--socket-timeout 5
+
+# Geo Restriction:
+# --geo-bypass-country US
+
+# Video Selection:
+# --min-filesize 35M
+--age-limit 25
+#--download-archive '/nas_share/Download/Temp/youtube-dl.archive'
+
+# Download Options:
+--retries 1
+--fragment-retries 1
+--http-chunk-size 10485760
+--hls-prefer-native
+
+# Filesystem Options:
+-o '%(uploader)s - %(title)s (%(id)s) [%(resolution)s].%(ext)s'
+--no-overwrites
+#--cookies '/nas_share/Download/Temp/cookies.txt'
+
+# Thumbnail images:
+
+# Verbosity / Simulation Options:
+# --quiet
+--no-warnings
+# --verbose
+
+# Workarounds:
+# --sleep-interval 1
+
+# Video Format Options:
+--format bestvideo+bestaudio/best
+# --format (bestvideo+bestaudio/best)[width>=?1920]
+
+# Subtitle Options:
+
+# Authentication Options:
+#--netrc
+
+# Adobe Pass Options:
+
+# Post-processing Options:
+
