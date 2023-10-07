@@ -192,6 +192,11 @@ elif _have keychain; then
     eval "$(keychain --eval id_ed25519)"
 fi
 
+# gnome-keyring
+if [[ -z "${SSH_AUTH_SOCK}" ]] && [[ -n "${XDG_RUNTIME_DIR}" ]]; then
+    export SSH_AUTH_SOCK="${XDG_RUNTIME_DIR}/keyring/ssh"
+fi
+
 # VSCode
 if [[ "$TERM_PROGRAM" = "vscode" ]]; then
     export EDITOR="code -r -w"
