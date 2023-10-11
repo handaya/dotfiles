@@ -1,16 +1,35 @@
 # shellcheck shell=bash
 # .bash_aliases
 
-type eza >/dev/null 2>&1 && alias ls=eza
-type tmuximum >/dev/null 2>&1 && alias t=tmuximum
+# chezmoi
+if type chezmoi >/dev/null 2>&1; then
+    alias cz=chezmoi
+    alias cze='chezmoi edit --apply'
+fi
 
-function bws() {
+# ls
+if type eza >/dev/null 2>&1; then
+    alias ls='eza --group-directories-first --no-quotes'
+    alias la='ls -A'
+    alias ll='ls -Ahl --git --icons'
+elif type lsd >/dev/null 2>&1; then
+    alias ls=lsd
+fi
+
+# tmux
+alias tm=tmuximum
+
+function bitwarden_sync() {
+    : Bitwardenのロックを外し、syncする
     bw login --check >/dev/null || export BW_SESSION=$(bw login --raw)
     bw unlock --check >/dev/null || export BW_SESSION=$(bw unlock --raw)
     echo "Syncing Vault..."
     bw sync
 }
+alias bws=bitwarden_sync
 
-function rum() {
+function restart_user_manager() {
+    # なぜか一部のWSL2の環境でこれが動いていないことがある(あった)
     systemctl is-active user@$(id -u) >/dev/null || sudo systemctl restart user@$(id -u)
 }
+alias rum=restart_user_manager
