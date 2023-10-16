@@ -117,25 +117,10 @@ if ! shopt -oq posix; then
     fi
 fi
 
-# User customization
-_have() {
-    type "$1" >/dev/null 2>&1
-}
-pathappend() {
-    for ARG in "$@"; do
-        if [ -d "$ARG" ] && [[ ":$PATH:" != *":$ARG:"* ]]; then
-            PATH="${PATH:+"$PATH:"}$ARG"
-        fi
-    done
-}
-pathprepend() {
-    for ((i = $#; i > 0; i--)); do
-        ARG=${!i}
-        if [ -d "$ARG" ] && [[ ":$PATH:" != *":$ARG:"* ]]; then
-            PATH="$ARG${PATH:+":$PATH"}"
-        fi
-    done
-}
+# User customizations
+
+# _have() pathappend() pathprepend() are defined in .bash_aliases
+
 pathprepend "$HOME/bin" "$HOME/.local/bin"
 
 HISTSIZE=100000
