@@ -11,5 +11,3 @@ set number
 set showmatch
 set autoindent
 set wrap
-colorscheme slate
-syntax on

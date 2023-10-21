@@ -185,9 +185,14 @@ fi
 # VSCode
 if [[ "$TERM_PROGRAM" = "vscode" ]]; then
     export EDITOR="code -r -w"
+elif _have nvim; then
+    export EDITOR=nvim
 else
     export EDITOR=${EDITOR:-vi}
-    # tmux/tmuximum
+fi
+
+# tmux/tmuximum
+if [[ "$TERM_PROGRAM" != "vscode" ]]; then
     if _have tmuximum; then
         if [[ -z $TMUX ]]; then
             tmuximum
