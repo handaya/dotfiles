@@ -2,53 +2,58 @@
 # .bash_aliases
 
 _have() {
-    type "$1" >/dev/null 2>&1
+	type "$1" >/dev/null 2>&1
 }
 
 pathappend() {
-    for ARG in "$@"; do
-        if [ -d "$ARG" ] && [[ ":$PATH:" != *":$ARG:"* ]]; then
-            PATH="${PATH:+"$PATH:"}$ARG"
-        fi
-    done
+	for ARG in "$@"; do
+		if [ -d "$ARG" ] && [[ ":$PATH:" != *":$ARG:"* ]]; then
+			PATH="${PATH:+"$PATH:"}$ARG"
+		fi
+	done
 }
 
 pathprepend() {
-    for ((i = $#; i > 0; i--)); do
-        ARG=${!i}
-        if [ -d "$ARG" ] && [[ ":$PATH:" != *":$ARG:"* ]]; then
-            PATH="$ARG${PATH:+":$PATH"}"
-        fi
-    done
+	for ((i = $#; i > 0; i--)); do
+		ARG=${!i}
+		if [ -d "$ARG" ] && [[ ":$PATH:" != *":$ARG:"* ]]; then
+			PATH="$ARG${PATH:+":$PATH"}"
+		fi
+	done
 }
 
 # chezmoi
 alias cz=chezmoi
 alias cze='chezmoi edit --apply'
+chezmoi_update() {
+	bitwarden_sync
+	chezmoi -v update
+}
+alias czu=chezmoi_update
 
 # ls
 if _have eza; then
-    alias ls='eza --group-directories-first --no-quotes'
-    alias la='ls -A'
-    alias ll='ls -Ahl --git --icons'
+	alias ls='eza --group-directories-first --no-quotes'
+	alias la='ls -A'
+	alias ll='ls -Ahl --git --icons'
 elif _have lsd; then
-    alias ls=lsd
+	alias ls=lsd
 fi
 
 # tmux
 alias tm=tmuximum
 
 function bitwarden_sync() {
-    : Bitwardenのロックを外し、syncする
-    bw login --check >/dev/null || export BW_SESSION=$(bw login --raw)
-    bw unlock --check >/dev/null || export BW_SESSION=$(bw unlock --raw)
-    echo "Syncing Vault..."
-    bw sync
+	: Bitwardenのロックを外し、syncする
+	bw login --check >/dev/null || export BW_SESSION=$(bw login --raw)
+	bw unlock --check >/dev/null || export BW_SESSION=$(bw unlock --raw)
+	echo "Syncing Vault..."
+	bw sync
 }
 alias bws=bitwarden_sync
 
 function restart_user_manager() {
-    # なぜか一部のWSL2の環境でこれが動いていないことがある(あった)
-    systemctl is-active user@$(id -u) >/dev/null || sudo systemctl restart user@$(id -u)
+	# なぜか一部のWSL2の環境でこれが動いていないことがある(あった)
+	systemctl is-active user@$(id -u) >/dev/null || sudo systemctl restart user@$(id -u)
 }
 alias rum=restart_user_manager
